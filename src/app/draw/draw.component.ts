@@ -15,7 +15,7 @@ export class DrawComponent implements OnInit {
   private canvasOptions: CanvasWhiteboardOptions;
 
   constructor(private _canvasWhiteboardService: CanvasWhiteboardService, private _canvasWhiteboardShapeService: CanvasWhiteboardShapeService) { 
-    //_canvasWhiteboardShapeService.registerShape(BrokenLineShape);
+    _canvasWhiteboardShapeService.registerShape(BrokenLineShape);
     _canvasWhiteboardShapeService.registerShape(TriangleShape);
   }
 
@@ -43,18 +43,18 @@ export class DrawComponent implements OnInit {
   }
 
   onCanvasDraw(evt) {
-    console.log("onCanvasDraw");
-    console.log(evt);
+    /*console.log("onCanvasDraw");
+    console.log(evt);*/
   }
   onCanvasClear() {
-    console.log("onCanvasClear");
+    //console.log("onCanvasClear");
   }
   onCanvasUndo(evt) {
-    console.log("onCanvasUndo");
-    console.log(evt);
+    /*console.log("onCanvasUndo");
+    console.log(evt);*/
   }
   onCanvasRedo(evt) {
-    console.log("onCanvasRedo");
-    console.log(evt);
+    /*console.log("onCanvasRedo");
+    console.log(evt);*/
   }
 }

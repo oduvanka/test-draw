@@ -11,52 +11,60 @@ import { CanvasWhiteboardPoint, CanvasWhiteboardShapeOptions, CanvasWhiteboardUp
   ]
 })
 export class BrokenLineShape extends CanvasWhiteboardShape { 
-  linePositions: Array<number>;
+  linePositions: CanvasWhiteboardPoint[];
+  endPosition: CanvasWhiteboardPoint;
  
-  constructor(positionPoint?: CanvasWhiteboardPoint, options?: CanvasWhiteboardShapeOptions) {
-      // Optional constructor if you need some additional setup
-      super(positionPoint, options);
-      this.linePositions = [];
+  constructor(positionPoint?: CanvasWhiteboardPoint, options?: CanvasWhiteboardShapeOptions, endPosition?: CanvasWhiteboardPoint) {
+    super(positionPoint, options);
+    this.linePositions = [];
+    this.endPosition = endPosition || new CanvasWhiteboardPoint(this.positionPoint.x, this.positionPoint.y);
   }
 
   getShapeName(): string {
-      // Abstract method which should return a string with the shape name
-      // Should be the same as the class name
-      return 'BrokenLineShape';
+    return 'BrokenLineShape';
   }
 
   draw(context: CanvasRenderingContext2D): any {
-      // Tell the canvas how to draw your shape here
+    Object.assign(context, this.options);
 
-      // Use the selected options from the canvas whiteboard
-      // Object.assign(context, this.options);
+    context.beginPath();
 
-      // Start drawing
-      // context.save();
-      // context.beginPath();
-      // context.stroke();
-      // context.fill();
-      // context.closePath();
-      // context.restore();
+    context.moveTo(this.positionPoint.x, this.positionPoint.y);
+    this.linePositions.forEach((linePosition) => {
+      context.lineTo(linePosition.x, linePosition.y);
+    });
+    context.lineTo(this.endPosition.x, this.endPosition.y);
+    context.stroke();
+    console.log(this.endPosition);
   }
 
   drawPreview(context: CanvasRenderingContext2D): any {
-      // Provide info or update this object when it's needed for preview drawing.
-      // Example: The CIRCLE selects the center point and updates the radius.
-      // Example: The RECT selects 0,0 and updates width and height to 100%.
-
-      // Then call the draw method with the updated object if you want your shape
-      // to have a proper preview.
-
-      // this.draw(context);
+    this.positionPoint = new CanvasWhiteboardPoint(5, 5);
+      this.linePositions = [
+        new CanvasWhiteboardPoint(context.canvas.width - 10, 5),
+        new CanvasWhiteboardPoint(context.canvas.width/4, context.canvas.height/2),
+        new CanvasWhiteboardPoint(context.canvas.width - 10, context.canvas.height - 10),
+      ];
+      this.endPosition = this.linePositions[2];
+      this.draw(context);
   }
 
   onUpdateReceived(update: CanvasWhiteboardUpdate): any {
-      // Choose what your shape does when an update is registered for it
-      // For example the CircleShape updates it's radius
+    const xFixed = Number(update.x.toFixed(0));
+    const yFixed = Number(update.y.toFixed(0));
+    if ((xFixed % 100 === 0) && (yFixed % 100 === 0)) {
+      console.log(xFixed, yFixed);
+      this.linePositions.push(new CanvasWhiteboardPoint(xFixed, yFixed));
+    }
+    this.endPosition = new CanvasWhiteboardPoint(update.x, update.y);
   }
 
   onStopReceived(update: CanvasWhiteboardUpdate): void {
-      // This method is optional but CAN be overriden
+    console.log("onStopReceived");
+    const xFixed = Number(update.x.toFixed(0));
+    const yFixed = Number(update.y.toFixed(0));
+    if ((xFixed % 100 !== 0) || (yFixed % 100 !== 0)) {
+      this.endPosition = this.linePositions[this.linePositions.length-1];
+    }
   }
 }
