@@ -5,11 +5,13 @@ import { CanvasWhiteboardModule } from 'ng2-canvas-whiteboard';
 
 import { AppComponent } from './app.component';
 import { DrawComponent } from './draw/draw.component';
+import { FieldComponent } from './field/field.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DrawComponent
+    DrawComponent,
+    FieldComponent
   ],
   imports: [
     BrowserModule,
