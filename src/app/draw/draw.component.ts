@@ -16,9 +16,10 @@ import { TriangleShape } from '../customShapes/triangle-shape';
 export class DrawComponent implements OnInit {
 
   private canvasOptions: CanvasWhiteboardOptions;
+  private selectedShapeOptions: CanvasWhiteboardShapeOptions;
   @Input() points: Array<Object>;
   private update: CanvasWhiteboardUpdate[] = [];
-  private selectedShapeOptions: CanvasWhiteboardShapeOptions;
+  private pointsCoords: Array<Object> = [];
 
   constructor(private _canvasWhiteboardService: CanvasWhiteboardService, private _canvasWhiteboardShapeService: CanvasWhiteboardShapeService) { 
     _canvasWhiteboardShapeService.registerShapes([BrokenLineShape, TriangleShape]);
@@ -42,6 +43,7 @@ export class DrawComponent implements OnInit {
       saveDataButtonText: "Save",
       lineWidth: 5,
       strokeColor: "rgb(0, 0, 0)",
+      startingColor: "rgba(0, 128, 0, 0.25)",
       shouldDownloadDrawing: true,
       drawingEnabled: true,
       showShapeSelector: true
@@ -49,8 +51,8 @@ export class DrawComponent implements OnInit {
 
     this.selectedShapeOptions = {
       shouldFillShape: true,
-      fillStyle: "rgba(255, 112, 51, 0.25)",
-      strokeStyle: "rgb(255, 112, 51)",
+      fillStyle: "rgba(0, 0, 0, 0.75)",
+      strokeStyle: "rgb(0, 0, 0)",
       lineWidth: 1,
       lineJoin: "round",
       lineCap: "round",
@@ -58,11 +60,11 @@ export class DrawComponent implements OnInit {
   }
 
   onCanvasDraw(evt) {
-    console.log("onCanvasDraw");
-    console.log(evt);
+    //console.log("onCanvasDraw");
+    console.log(this);
   }
   onCanvasClear() {
-    console.log("onCanvasClear");
+    //console.log("onCanvasClear");
     
     this.update = [];
     const selectedShape = "TriangleShape";
@@ -76,6 +78,7 @@ export class DrawComponent implements OnInit {
       const xEnd = (coorsd['x'] + 2) / 100;
       const yStart = coorsd['y'] / 100;
       const yEnd = (coorsd['y'] + 10) / 100;
+      this.pointsCoords.push(coorsd);
 
       const UUID = "" + item["id"];
 
@@ -90,11 +93,13 @@ export class DrawComponent implements OnInit {
     })
 
     this._canvasWhiteboardService.drawCanvas(this.update);
+
+    console.log(this.pointsCoords);
   }
   onCanvasUndo(uuid) {
-    console.log("onCanvasUndo");
+    //console.log("onCanvasUndo");
   }
   onCanvasRedo(uuid) {
-    console.log("onCanvasRedo");
+    //console.log("onCanvasRedo");
   }
 }
