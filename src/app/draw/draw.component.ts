@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { 
   CanvasWhiteboardComponent, CanvasWhiteboardOptions, CanvasWhiteboardService, CanvasWhiteboardShapeService, CanvasWhiteboardUpdate, 
-  CircleShape, RectangleShape, CanvasWhiteboardShapeOptions, /*FreeHandShape, LineShape, SmileyShape, StarShape*/
+  CircleShape, RectangleShape, CanvasWhiteboardShapeOptions, FreeHandShape, LineShape, SmileyShape, StarShape
 } from 'ng2-canvas-whiteboard';
 import { BrokenLineShape } from '../customShapes/broken-line-shape';
 import { TriangleShape } from '../customShapes/triangle-shape';
@@ -22,7 +22,7 @@ export class DrawComponent implements OnInit {
 
   constructor(private _canvasWhiteboardService: CanvasWhiteboardService, private _canvasWhiteboardShapeService: CanvasWhiteboardShapeService) { 
     _canvasWhiteboardShapeService.registerShapes([BrokenLineShape, TriangleShape]);
-    _canvasWhiteboardShapeService.unregisterShapes([CircleShape, RectangleShape, /*FreeHandShape, LineShape, SmileyShape, StarShape*/]);
+    _canvasWhiteboardShapeService.unregisterShapes([CircleShape, RectangleShape, FreeHandShape, LineShape, SmileyShape, StarShape]);
   }
 
   ngOnInit() {
