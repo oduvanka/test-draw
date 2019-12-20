@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { 
   CanvasWhiteboardComponent, CanvasWhiteboardOptions, CanvasWhiteboardService, CanvasWhiteboardShapeService, CanvasWhiteboardUpdate, 
-  CircleShape, RectangleShape, CanvasWhiteboardShapeOptions, /*FreeHandShape, LineShape, SmileyShape, StarShape*/
+  CircleShape, RectangleShape, CanvasWhiteboardShapeOptions, FreeHandShape, LineShape, SmileyShape, StarShape
 } from 'ng2-canvas-whiteboard';
 import { BrokenLineShape } from '../customShapes/broken-line-shape';
 import { TriangleShape } from '../customShapes/triangle-shape';
