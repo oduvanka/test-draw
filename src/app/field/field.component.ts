@@ -8,16 +8,66 @@ import { Component, OnInit } from '@angular/core';
 export class FieldComponent implements OnInit {
 /* площадка 100 на 100 метров */
   private objects = [
-    { id: 101, name: "peg 1", x: 1, y: 5, z: 10 },
-    { id: 102, name: "peg 2", x: 40, y: 0, z: 10 },
-    { id: 103, name: "peg 3", x: 98, y: 2, z: 10 },
-    { id: 104, name: "peg 4", x: 27, y: 30, z: 10 },
-    { id: 105, name: "peg 5", x: 76, y: 32, z: 10 },
-    { id: 106, name: "peg 6", x: 22, y: 69, z: 10 },
-    { id: 107, name: "peg 7", x: 80, y: 81, z: 10 },
-    { id: 108, name: "peg 8", x: 7, y: 100, z: 10 },
-    { id: 109, name: "peg 9", x: 33, y: 99, z: 10 },
-    { id: 110, name: "peg 10", x: 100, y: 95, z: 10 }
+    {
+      id: 101,
+      name: "mine 1",
+      coords: { x: 11, y: 15, z: 10 },
+      mineral: { name: "bauxite", color: "#FF7033" }
+    },
+    {
+      id: 102,
+      name: "mine 2",
+      coords: { x: 40, y: 10, z: 10 },
+      mineral: { name: "iron", color: "#0055BB" }
+    },
+    {
+      id: 103,
+      name: "mine 3",
+      coords: { x: 68, y: 12, z: 10 },
+      mineral: { name: "gold", color: "#FFCF48" }
+    },
+    {
+      id: 104,
+      name: "mine 4",
+      coords: { x: 27, y: 30, z: 10 },
+      mineral: { name: "iron", color: "#0055BB" }
+    },
+    {
+      id: 105,
+      name: "mine 5",
+      coords: { x: 66, y: 32, z: 10 },
+      mineral: { name: "bauxite", color: "#FF7033" }
+    },
+    {
+      id: 106,
+      name: "mine 6",
+      coords: { x: 52, y: 69, z: 10 },
+      mineral: { name: "iron", color: "#0055BB" }
+    },
+    {
+      id: 107,
+      name: "mine 7",
+      coords: { x: 80, y: 81, z: 10 },
+      mineral: { name: "bauxite", color: "#FF7033" }
+    },
+    {
+      id: 108,
+      name: "mine 8",
+      coords: { x: 17, y: 90, z: 10 },
+      mineral: { name: "oil", color: "#000000" }
+    },
+    {
+      id: 109,
+      name: "mine 9",
+      coords: { x: 33, y: 89, z: 10 },
+      mineral: { name: "bauxite", color: "#FF7033" }
+    },
+    {
+      id: 110,
+      name: "mine 10",
+      coords: { x: 90, y: 85, z: 10 },
+      mineral: { name: "iron", color: "#0055BB" }
+    }
   ]
 
   constructor() { }

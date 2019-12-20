@@ -35,7 +35,7 @@ export class BrokenLineShape extends CanvasWhiteboardShape {
     });
     context.lineTo(this.endPosition.x, this.endPosition.y);
     context.stroke();
-    console.log(this.endPosition);
+    //console.log(this.endPosition);
   }
 
   drawPreview(context: CanvasRenderingContext2D): any {
