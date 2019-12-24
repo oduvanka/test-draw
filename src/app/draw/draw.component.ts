@@ -1,10 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { 
   CanvasWhiteboardComponent, CanvasWhiteboardOptions, CanvasWhiteboardService, CanvasWhiteboardShapeService, CanvasWhiteboardUpdate, 
   CircleShape, RectangleShape, CanvasWhiteboardShapeOptions, /*FreeHandShape, LineShape, SmileyShape, StarShape*/
 } from 'ng2-canvas-whiteboard';
-import { BrokenLineShape } from '../customShapes/broken-line-shape';
+
+import { PolygonalChainShape } from '../customShapes/polygonal-chain-shape';
 import { TriangleShape } from '../customShapes/triangle-shape';
+import { DataService } from '../data.service';
 
 
 @Component({
@@ -17,13 +19,19 @@ export class DrawComponent implements OnInit {
 
   private canvasOptions: CanvasWhiteboardOptions;
   private selectedShapeOptions: CanvasWhiteboardShapeOptions;
-  @Input() points: Array<Object>;
+  private points: Object[];
   private update: CanvasWhiteboardUpdate[] = [];
-  private pointsCoords: Array<Object> = [];
 
-  constructor(private _canvasWhiteboardService: CanvasWhiteboardService, private _canvasWhiteboardShapeService: CanvasWhiteboardShapeService) { 
-    _canvasWhiteboardShapeService.registerShapes([BrokenLineShape, TriangleShape]);
+  constructor(
+    private _canvasWhiteboardService: CanvasWhiteboardService, 
+    private _canvasWhiteboardShapeService: CanvasWhiteboardShapeService,
+    private _dataService: DataService
+  ) { 
+    _canvasWhiteboardShapeService.registerShapes([PolygonalChainShape, TriangleShape]);
     _canvasWhiteboardShapeService.unregisterShapes([CircleShape, RectangleShape, /*FreeHandShape, LineShape, SmileyShape, StarShape*/]);
+    
+    console.log("draw - constructor");
+    console.log(_dataService);
   }
 
   ngOnInit() {
@@ -56,7 +64,9 @@ export class DrawComponent implements OnInit {
       lineWidth: 1,
       lineJoin: "round",
       lineCap: "round",
-    }
+    };
+
+    this.points = this._dataService.getData();
   }
 
   onCanvasDraw(evt) {
@@ -78,7 +88,6 @@ export class DrawComponent implements OnInit {
       const xEnd = (coorsd['x'] + 2) / 100;
       const yStart = coorsd['y'] / 100;
       const yEnd = (coorsd['y'] + 10) / 100;
-      this.pointsCoords.push(coorsd);
 
       const UUID = "" + item["id"];
 
@@ -93,8 +102,6 @@ export class DrawComponent implements OnInit {
     })
 
     this._canvasWhiteboardService.drawCanvas(this.update);
-
-    console.log(this.pointsCoords);
   }
   onCanvasUndo(uuid) {
     //console.log("onCanvasUndo");

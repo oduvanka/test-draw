@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { DrawComponent } from './draw/draw.component';
 import { FieldComponent } from './field/field.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +18,6 @@ import { FieldComponent } from './field/field.component';
     BrowserModule,
     CanvasWhiteboardModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
