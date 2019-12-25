@@ -22,6 +22,7 @@ export class DrawComponent implements OnInit {
   private points: Object[];
   private minerals: Map<number, Object>;
   private update: CanvasWhiteboardUpdate[] = [];
+  private isDraw: boolean;
 
   constructor(
     private _canvasWhiteboardService: CanvasWhiteboardService, 
@@ -31,6 +32,8 @@ export class DrawComponent implements OnInit {
     _canvasWhiteboardShapeService.registerShapes([PolygonalChainShape, TriangleShape]);
     _canvasWhiteboardShapeService.unregisterShapes([CircleShape, RectangleShape, /*FreeHandShape, LineShape, SmileyShape, StarShape*/]);
     
+    this.isDraw = false;
+
     console.log("draw - constructor");
     console.log(_dataService);
   }
@@ -73,7 +76,10 @@ export class DrawComponent implements OnInit {
 
   onCanvasDraw(evt) {
     //console.log("DrawComponent - onCanvasDraw");
-    //console.log(this);
+    if (!this.isDraw) {
+      this.isDraw = true;
+      this.setPoints();
+    }
   }
   onCanvasClear() {
     //console.log("DrawComponent - onCanvasClear");
