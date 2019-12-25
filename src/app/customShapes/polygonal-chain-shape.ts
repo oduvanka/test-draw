@@ -16,8 +16,8 @@ export class PolygonalChainShape extends CanvasWhiteboardShape {
     this.linePositions = [];
     this.endPosition = endPosition || new CanvasWhiteboardPoint(this.positionPoint.x, this.positionPoint.y);
 
-    console.log("broken-line - contructor");
-    console.log(this._dataService);
+    //console.log("broken-line - contructor");
+    //console.log(this._dataService);
   }
 
   getShapeName(): string {

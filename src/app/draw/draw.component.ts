@@ -20,6 +20,7 @@ export class DrawComponent implements OnInit {
   private canvasOptions: CanvasWhiteboardOptions;
   private selectedShapeOptions: CanvasWhiteboardShapeOptions;
   private points: Object[];
+  private minerals: Map<number, Object>;
   private update: CanvasWhiteboardUpdate[] = [];
 
   constructor(
@@ -67,6 +68,7 @@ export class DrawComponent implements OnInit {
     };
 
     this.points = this._dataService.getData();
+    this.minerals = this._dataService.getMinerals();
   }
 
   onCanvasDraw(evt) {
@@ -77,7 +79,8 @@ export class DrawComponent implements OnInit {
     //console.log("onCanvasClear");
     
     this.update = [];
-    const selectedShape = "TriangleShape";
+    const selectedTriangle = "TriangleShape";
+    const selectedPolygonalLine = "PolygonalChainShape";
     const typeStart = 0;
     const typeDrag = 1;
     const typeEnd = 2;
@@ -92,14 +95,39 @@ export class DrawComponent implements OnInit {
       const UUID = "" + item["id"];
 
       const mineral = item['mineral'];
-      const mineralName = mineral['name'];
       const hexColor = mineral['color'];
-      const shapeOptions = Object.assign({}, this.selectedShapeOptions, { strokeStyle: hexColor, fillStyle: hexColor+"75" })
+      const triangleOptions = Object.assign({}, this.selectedShapeOptions, { strokeStyle: hexColor, fillStyle: hexColor+"75" });
       
-      this.update.push(new CanvasWhiteboardUpdate(xStart, yStart, typeStart, UUID, selectedShape, shapeOptions));
+      this.update.push(new CanvasWhiteboardUpdate(xStart, yStart, typeStart, UUID, selectedTriangle, triangleOptions));
       this.update.push(new CanvasWhiteboardUpdate(xEnd, yEnd, typeDrag, UUID, undefined, undefined));
-      this.update.push(new CanvasWhiteboardUpdate(xEnd, yEnd, typeEnd, UUID, undefined, undefined));  
-    })
+      this.update.push(new CanvasWhiteboardUpdate(xEnd, yEnd, typeEnd, UUID, undefined, undefined));
+    });
+
+    for (let mineral of this.minerals.values()) {
+      
+      const mineralPoints = mineral['points'];
+      if (mineralPoints.length > 1) {
+        // есть смысл рисовать линию
+        //const UUID = "" + mineral["id"];
+
+        const hexColor = mineral['color'];
+        const lineOptions = Object.assign({}, this.selectedShapeOptions, { strokeStyle: hexColor, fillStyle: hexColor+"25" });
+        console.log(hexColor);
+
+        for (let i=0; i < mineralPoints.length-1; i++) {
+          const xStart = mineralPoints[i]['x'];
+          const xEnd = mineralPoints[i+1]['x'];
+          const yStart = mineralPoints[i]['y'];
+          const yEnd = mineralPoints[i+1]['y'];
+          /*
+          this.update.push(new CanvasWhiteboardUpdate(xStart, yStart, typeStart, UUID, selectedPolygonalLine, lineOptions));
+          this.update.push(new CanvasWhiteboardUpdate(xEnd, yEnd, typeDrag, UUID, undefined, undefined));
+          this.update.push(new CanvasWhiteboardUpdate(xEnd, yEnd, typeEnd, UUID, undefined, undefined));
+          */
+         console.log(xStart, yStart, xEnd, yEnd);
+        }
+      }
+    }
 
     this._canvasWhiteboardService.drawCanvas(this.update);
   }
