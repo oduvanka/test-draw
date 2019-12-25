@@ -1,6 +1,8 @@
 import { CanvasWhiteboardShape, CanvasWhiteboardPoint, CanvasWhiteboardShapeOptions, CanvasWhiteboardUpdate } from 'ng2-canvas-whiteboard';
 import { DataService } from '../data.service';
 
+/*  */
+
 export class PolygonalChainShape extends CanvasWhiteboardShape { 
   linePositions: CanvasWhiteboardPoint[];
   endPosition: CanvasWhiteboardPoint;
@@ -15,7 +17,7 @@ export class PolygonalChainShape extends CanvasWhiteboardShape {
     super(positionPoint, options);
     this.linePositions = [];
     this.endPosition = endPosition || new CanvasWhiteboardPoint(this.positionPoint.x, this.positionPoint.y);
-
+    
     //console.log("broken-line - contructor");
     //console.log(this._dataService);
   }
@@ -35,7 +37,6 @@ export class PolygonalChainShape extends CanvasWhiteboardShape {
     });
     context.lineTo(this.endPosition.x, this.endPosition.y);
     context.stroke();
-    console.log(this.endPosition);
   }
 
   drawPreview(context: CanvasRenderingContext2D): any {
@@ -52,18 +53,16 @@ export class PolygonalChainShape extends CanvasWhiteboardShape {
   onUpdateReceived(update: CanvasWhiteboardUpdate): any {
     const xFixed = Number(update.x.toFixed(0));
     const yFixed = Number(update.y.toFixed(0));
-    if ((xFixed % 100 === 0) && (yFixed % 100 === 0)) {
-      //console.log(xFixed, yFixed);
+    if ((xFixed % 10 === 0) && (yFixed % 10 === 0)) {
       this.linePositions.push(new CanvasWhiteboardPoint(xFixed, yFixed));
     }
     this.endPosition = new CanvasWhiteboardPoint(update.x, update.y);
   }
 
   onStopReceived(update: CanvasWhiteboardUpdate): void {
-    console.log(">>> onStopReceived");
     const xFixed = Number(update.x.toFixed(0));
     const yFixed = Number(update.y.toFixed(0));
-    if ((xFixed % 100 !== 0) || (yFixed % 100 !== 0)) {
+    if ((xFixed % 10 !== 0) || (yFixed % 10 !== 0)) {
       if (this.linePositions.length > 0) {
         // сбрасывает в последнюю зафиксированную точку
         this.endPosition = this.linePositions[this.linePositions.length-1];

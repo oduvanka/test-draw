@@ -72,15 +72,26 @@ export class DrawComponent implements OnInit {
   }
 
   onCanvasDraw(evt) {
-    //console.log("onCanvasDraw");
-    console.log(this);
+    //console.log("DrawComponent - onCanvasDraw");
+    //console.log(this);
   }
   onCanvasClear() {
-    //console.log("onCanvasClear");
-    
+    //console.log("DrawComponent - onCanvasClear");
+    this.setPoints();
+  }
+  onCanvasUndo(uuid) {
+    //console.log("DrawComponent - onCanvasUndo");
+  }
+  onCanvasRedo(uuid) {
+    //console.log("DrawComponent - onCanvasRedo");
+  }
+
+  setPoints() {
+    console.log("DrawComponent - setPoints");
+
     this.update = [];
     const selectedTriangle = "TriangleShape";
-    const selectedPolygonalLine = "PolygonalChainShape";
+    const selectedPolygonalLine = /* "PolygonalChainShape"; */ "FreeHandShape";
     const typeStart = 0;
     const typeDrag = 1;
     const typeEnd = 2;
@@ -104,37 +115,28 @@ export class DrawComponent implements OnInit {
     });
 
     for (let mineral of this.minerals.values()) {
-      
       const mineralPoints = mineral['points'];
-      if (mineralPoints.length > 1) {
+      const lengthMinerals = mineralPoints.length;
+      if (lengthMinerals > 1) {
         // есть смысл рисовать линию
-        //const UUID = "" + mineral["id"];
+        const UUID = /* "" + mineral["id"]; */ mineral['color'];
 
         const hexColor = mineral['color'];
         const lineOptions = Object.assign({}, this.selectedShapeOptions, { strokeStyle: hexColor, fillStyle: hexColor+"25" });
-        console.log(hexColor);
 
-        for (let i=0; i < mineralPoints.length-1; i++) {
-          const xStart = mineralPoints[i]['x'];
-          const xEnd = mineralPoints[i+1]['x'];
-          const yStart = mineralPoints[i]['y'];
-          const yEnd = mineralPoints[i+1]['y'];
-          /*
+        for (let i=1; i < lengthMinerals; i++) {
+          const xStart = mineralPoints[i-1]['x'] / 100;
+          const yStart = mineralPoints[i-1]['y'] / 100;
+          
+          const xEnd = mineralPoints[i]['x'] / 100;
+          const yEnd = mineralPoints[i]['y'] / 100;
+          
           this.update.push(new CanvasWhiteboardUpdate(xStart, yStart, typeStart, UUID, selectedPolygonalLine, lineOptions));
           this.update.push(new CanvasWhiteboardUpdate(xEnd, yEnd, typeDrag, UUID, undefined, undefined));
-          this.update.push(new CanvasWhiteboardUpdate(xEnd, yEnd, typeEnd, UUID, undefined, undefined));
-          */
-         console.log(xStart, yStart, xEnd, yEnd);
+          this.update.push(new CanvasWhiteboardUpdate(xEnd, yEnd, typeEnd, UUID, undefined, undefined));        
         }
       }
     }
-
     this._canvasWhiteboardService.drawCanvas(this.update);
-  }
-  onCanvasUndo(uuid) {
-    //console.log("onCanvasUndo");
-  }
-  onCanvasRedo(uuid) {
-    //console.log("onCanvasRedo");
   }
 }
